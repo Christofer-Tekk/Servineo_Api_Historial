@@ -18,7 +18,11 @@ const historialSchema = new mongoose.Schema({
     usuario_numero: { type: String, required: true }, // nuevo campo para guardar el número del usuario
     mensaje_usuario: { type: String, required: true },
     mensaje_IA: { type: String, required: true },
-    fecha: { type: Date, default: Date.now },
+    fecha: { type: Date, default: () => {
+        const d = new Date();
+        // Restamos 4 horas para convertir UTC -> UTC-4 (Bolivia)
+        return new Date(d.getTime() - 4 * 60 * 60 * 1000);
+    }},
     tipo_medio: { type: String, enum: ["texto", "audio", "imagen"], default: "texto" },
 });
 
